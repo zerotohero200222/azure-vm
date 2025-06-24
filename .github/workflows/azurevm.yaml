@@ -31,14 +31,14 @@ jobs:
       - name: 'Terraform Init'
         run: terraform init
 
+      - name: 'Inject SSH Key into tfvars'
+        run: echo "admin_ssh_public_key = \"${{ env.SSH_PUBLIC_KEY }}\"" > override.tfvars
+
       - name: 'Terraform Validate'
         run: terraform validate
 
       - name: 'Terraform Plan'
-        run: |
-          terraform plan \
-            -out=tfplan \
-            -var="admin_ssh_public_key=${{ env.SSH_PUBLIC_KEY }}"
+        run: terraform plan -var-file="override.tfvars" -out=tfplan
 
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve tfplan
