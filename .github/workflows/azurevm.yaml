@@ -28,11 +28,11 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
+      - name: 'Inject SSH Key into tfvars'
+        run: echo 'admin_ssh_public_key = "${{ env.SSH_PUBLIC_KEY }}"' > override.tfvars
+
       - name: 'Terraform Init'
         run: terraform init
-
-      - name: 'Inject SSH Key into tfvars'
-        run: echo "admin_ssh_public_key = \"${{ env.SSH_PUBLIC_KEY }}\"" > override.tfvars
 
       - name: 'Terraform Validate'
         run: terraform validate
