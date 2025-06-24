@@ -35,7 +35,10 @@ jobs:
         run: terraform validate
 
       - name: 'Terraform Plan'
-        run: terraform plan -out=tfplan -var="ssh_public_key=${{ env.SSH_PUBLIC_KEY }}"
+        run: |
+          terraform plan \
+            -out=tfplan \
+            -var="admin_ssh_public_key=${{ env.SSH_PUBLIC_KEY }}"
 
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve tfplan
